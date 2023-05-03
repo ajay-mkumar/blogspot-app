@@ -41,7 +41,8 @@ export const Auth = () => {
 
   const onSignupSubmit=()=>{
     onCaptchaverify();
-    const phoneNumber = "+91" + inputs.phone;
+    const phoneNumber = inputs.phone.length===10 ? "+91" + inputs.phone  : inputs.phone;
+    console.log(phoneNumber)
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((confirmationResult) => {
@@ -93,7 +94,7 @@ export const Auth = () => {
     }))
   }
   useEffect(()=>{
-    if(inputs.phone.length===10){
+    if(inputs.phone.length>=10){
       setInputs((prevstate)=>({
         ...prevstate,
         verifybutton:true}))
@@ -105,7 +106,7 @@ export const Auth = () => {
   },[inputs.phone])
 
   const sendRequest=async(type="login")=>{
-    const res=await axios.post(`http://localhost:5000/user/${type}`,{
+    const res=await axios.post(`https://blogspot-pf51.onrender.com/user/${type}`,{
       name:inputs.name,
       phone:inputs.phone,
       password:inputs.password
@@ -167,7 +168,7 @@ export const Auth = () => {
           boxShadow={"10px 10px 20px #ccc"} padding={3}
           margin={"auto"} marginTop={5} borderRadius={5}>
           <Typography padding={3} variant='h4' textAlign={'center'}>
-            {isSignup ? "Signup" : "Login"}
+            {isSignup ? "Signup" :forgetpword? "Reset password" : "Login"}
             </Typography>
          {isSignup && 
         
@@ -175,25 +176,25 @@ export const Auth = () => {
          placeholder='Name' margin='normal' />
          }{" "}
     {inputs.verified ? <p>verfied</p> :
-        <TextField type='number' name='phone' value={inputs.phone} onChange={handlechange} 
+        <TextField type='units * 600 + 2500 | number' name='phone' value={inputs.phone} onChange={handlechange} 
            placeholder='Phone' margin='normal' />}
-          {isSignup || forgetpword && inputs.verifybutton && 
+          {isSignup && inputs.verifybutton || forgetpword   ? 
            <Button  variant='contained' sx={{borderRadius:'5', marginTop:'3'}} 
-            onClick={onSignupSubmit} color='primary'>send otp</Button>}
-          {isSignup || forgetpword && inputs.verifyotp &&
+            onClick={onSignupSubmit} color='primary'>send otp</Button>: null}
+          {isSignup && inputs.verifyotp || forgetpword   ?
           <> <TextField type='number' name='otp' value={inputs.otp} onChange={handlechange} 
            placeholder='otp' margin='normal' />
            <Button  variant='contained' sx={{borderRadius:'5', marginTop:'3'}}
-            onClick={verifyCode} color='primary'>verify</Button></>} 
+            onClick={verifyCode} color='primary'>verify</Button></>:null} 
            
 
           
           <TextField type='password' name='password' value={inputs.password} onChange={handlechange} 
            placeholder='Password' margin='normal' />
 
-        {isSignup || forgetpword && <TextField type='password'  name='confirm_password' value={inputs.confirm_password} onChange={handlechange} 
+        {isSignup || forgetpword ? <TextField type='password'  name='confirm_password' value={inputs.confirm_password} onChange={handlechange} 
          placeholder='Confirm Password' margin='normal' />
-         }{" "}
+         : null}
 
           <Button type='submit' variant='contained' sx={{borderRadius:'5', marginTop:'3'}} color='primary'>
             {isSignup ? "signup" : forgetpword ? "reset password": "login" }</Button>

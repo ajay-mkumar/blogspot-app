@@ -35,8 +35,11 @@ function App() {
       <main>
       <Routes>
         { !isLoggedin ?
-        <Route  path='/auth' element={<Auth />} />
+        <>
+        <Route path='/' element={<Auth />} />
+        <Route  path='/auth' element={<Auth />} /></>
         : <>
+        
         <Route  path='/blogs' element={<Blogs />} />
         <Route  path='/myblogs' element={<UserBlogs />} />
         <Route  path='/myblogs/:id' element={<Blogdetails />} />

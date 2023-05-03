@@ -2,10 +2,10 @@ import React, { useRef, useState } from 'react'
 import {Box, Button, InputLabel, TextField, Typography} from '@mui/material'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useStyle } from './util';
+import { useStyles } from './util';
 
 export const AddBlog = () => {
-  const classes=useStyle();
+  const classes=useStyles();
   const navigate=useNavigate();
   const hiddenfileinput=useRef(null)
   const [inputs,setInputs]=useState({
@@ -20,7 +20,7 @@ export const AddBlog = () => {
     }))
   }
   const sendRequest=async()=>{
-    const res=await axios.post("http://localhost:5000/blog/addblog",{
+    const res=await axios.post("https://blogspot-pf51.onrender.com/addblog",{
       title:inputs.title,
       description:inputs.description,
       image,

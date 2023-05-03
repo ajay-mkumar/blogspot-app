@@ -2,8 +2,10 @@ import { Box, Button, InputLabel, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useStyles } from './util';
 
 export const Blogdetails = () => {
+  const classes=useStyles();
   const navigate=useNavigate();
   const labelstyles={mb:1,mt:2,fontSize:'24px',fontWeight:'bold'};
   const id=useParams().id;
@@ -22,7 +24,7 @@ export const Blogdetails = () => {
   const [blogs,setBlogs]=useState();
 
   const fetchDetails=async()=>{
-    const res=await axios.get(`http://localhost:5000/blog/${id}`).catch(err=>console.log(err))
+    const res=await axios.get(`https://blogspot-pf51.onrender.com/blog/${id}`).catch(err=>console.log(err))
     const data=await res.data;
 
     return(data);
@@ -35,10 +37,11 @@ export const Blogdetails = () => {
                                   description:data.blog.description,
                             
                                 })
+                                //eslint-disable-next-line
                                 })
   },[id]);
   const sendRequest=async()=>{
-    const res=await axios.put(`http://localhost:5000/blog/update/${id}`,{
+    const res=await axios.put(`https://blogspot-pf51.onrender.com/blog/update/${id}`,{
       title:inputs.title,
       description:inputs.description
     }).catch(err=>console.log(err));
@@ -57,20 +60,18 @@ export const Blogdetails = () => {
 return (
     <div>
       {inputs &&   <form onSubmit={handleSubmit}>
-    <Box border={3} borderColor="green"
-     borderRadius={5} boxShadow="10px 10px 20px #ccc"
-     padding={3} margin={3} display={"felx"}
-      flexDirection={"column"} width={"80%"}>
+      <Box maxWidth={400} display="flex" flexDirection={"column"}
+          alignItems="center" justifyContent={"center"}
+          boxShadow={"10px 10px 20px #ccc"} padding={3}
+          margin={"auto"} marginTop={5} borderRadius={5}>
+          <Typography className={classes.font} padding={3} variant='h4' textAlign={'center'}>
+            Update Your Blog
+            </Typography>
+         <TextField className={classes.font}  name='title' value={inputs.title} onChange={handlechange} 
+         placeholder='title' margin='normal' />
 
-      <Typography fontWeight={'bold'} color={'grey'}
-       variant='h2' textAlign={'center'}>update Your Blog</Typography>
-
-      <InputLabel sx={labelstyles}>Title</InputLabel>
-      <TextField name='title' value={inputs.title} onChange={handlechange} />
-
-      <InputLabel sx={labelstyles}>Description</InputLabel>
-      <TextField name='description' value={inputs.description} onChange={handlechange}/>
-
+          <TextField className={classes.font}  name='description' value={inputs.description} onChange={handlechange} 
+           placeholder='description' margin='normal' />
       
 
       <Button type='submit'>update</Button>

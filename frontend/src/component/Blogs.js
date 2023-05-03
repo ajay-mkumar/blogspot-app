@@ -4,7 +4,7 @@ import { Blog } from './Blog';
 export const Blogs = () => {
   const [blogs,setBlog]=useState();
   const sendRequest=async()=>{
-    const res=await axios.get("http://localhost:5000/blog").catch(err=>console.log(err))
+    const res=await axios.get("https://blogspot-pf51.onrender.com/blog").catch(err=>console.log(err))
 
     const data=res.data;
 
@@ -12,6 +12,7 @@ export const Blogs = () => {
   }
   useEffect(()=>{
     sendRequest().then(data=>setBlog(data.allblog))
+    //eslint-disable-next-line
   },[])
   console.log(blogs)
   return (

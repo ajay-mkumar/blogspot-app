@@ -4,13 +4,15 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import {useNavigate} from 'react-router-dom'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios'
+import {makeStyles} from '@material-ui/styles'
 
 export const Blog= ({id,title,description,imageUrl,userName,isUser}) => {
+  
   console.log(isUser,title);
   const navigate=useNavigate();
   const handleupdate=(e)=>{
@@ -18,7 +20,7 @@ export const Blog= ({id,title,description,imageUrl,userName,isUser}) => {
   }
 
   const deleteRequest=async()=>{
-    const res=await axios.delete(`http://localhost:5000/blog/${id}`).catch(err=>console.log(err));
+    const res=await axios.delete(`https://blogspot-pf51.onrender.com/blog/${id}`).catch(err=>console.log(err));
 
     const data=await res.data;
 
@@ -32,9 +34,9 @@ export const Blog= ({id,title,description,imageUrl,userName,isUser}) => {
   }
   return (
     <div>
-      <Grid container >
+
     
-      <Card sx={{ width: "40%",margin:"auto",mt:2,padding:2,boxShadow:"5px 5px 10px #ccc",":hover":{
+      <Card  sx={{ width: "40%",margin:"auto",mt:2,padding:2,boxShadow:"5px 5px 10px #ccc",":hover":{
         boxShadow:"10px 10px 20px #ccc"
       } }}>
         {isUser && 
@@ -53,7 +55,8 @@ export const Blog= ({id,title,description,imageUrl,userName,isUser}) => {
         title={title}
         subheader="September 14, 2016"
       />
-      <CardMedia
+    
+      <CardMedia 
         component="img"
         height="194"
         image={imageUrl}
@@ -69,7 +72,7 @@ export const Blog= ({id,title,description,imageUrl,userName,isUser}) => {
       </CardContent>
  
     </Card>
-    </Grid>
+   
   
     </div>
   )

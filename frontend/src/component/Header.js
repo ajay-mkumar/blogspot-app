@@ -3,13 +3,20 @@ import {AppBar, Box, Button, Tabs,Tab, Toolbar, Typography, Grid } from '@mui/ma
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../store';
+import {useTheme} from '@mui/material';
+import {useMediaQuery} from '@mui/material';
+import {DrawerComponent} from './DrawerComponent';
 
 export const Header = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
   const dispatch=useDispatch();
   const [isSignup,setSignup]=useState(false);
   const isLoggedin=useSelector(state=>state.isLoggedin);
   const [value,setValue]=useState();
   return (
+    isMobile ? 
+    <DrawerComponent /> :
     <Grid>
     <AppBar position='sticky'>
         <Toolbar>
@@ -38,5 +45,6 @@ export const Header = () => {
         </Toolbar>
     </AppBar>
     </Grid>
+  
   )
 }

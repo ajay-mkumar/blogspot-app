@@ -1,8 +1,18 @@
-import { makeStyles } from "@mui/styles";
+import React from "react";
+import { makeStyles } from "@material-ui/styles"
 
-export const useStyle=makeStyles({
+export const useStyles=makeStyles({
     font:{
         fontFamily:"Roboto !important"
-    }
+    },
+    link:{
+        textDecoration:"none",
+        color: "blue",
+        fontSize: "20px",
+    },
+    icon:{
+        color: "white"
+    },
+   
 })
 
