@@ -8,6 +8,7 @@ import {Blogdetails} from "./component/Blogdetails"
 import {Routes,Route} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { authActions } from "./store";
+import { Forgetpassword } from "./component/Forgetpassword";
 
 function App() {
   const isLoggedin=useSelector(state=>state.isLoggedin);
@@ -37,7 +38,8 @@ function App() {
         { !isLoggedin ?
         <>
         <Route path='/' element={<Auth />} />
-        <Route  path='/auth' element={<Auth />} /></>
+        <Route  path='/auth' element={<Auth />} />
+        <Route path='/forgetpassword' element={<Forgetpassword />}/></>
         : <>
         
         <Route  path='/blogs' element={<Blogs />} />

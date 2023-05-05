@@ -5,25 +5,24 @@ import { useDispatch } from 'react-redux'
 import { authActions } from '../store'
 import { useNavigate } from 'react-router-dom'
 import app from './firebaseconfig'
-
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-export const Auth = () => {
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
-  const [isSignup,setSignup]=useState(false);
-  const [inputs,setInputs]=useState({
-    name:"",
-    phone:"",
-    password:"",
-    confirm_password:"",
-    verifybutton:false,
-    verifyotp:false,
-    opt:'',
-    verified:false,
-  })
+export const Forgetpassword=()=> {
+    const dispatch=useDispatch();
 
-  const auth = getAuth(app);
+    const navigate=useNavigate();
+
+    const [inputs,setInputs]=useState({
+        phone:"",
+        password:"",
+        confirm_password:"",
+        verifybutton:false,
+        verifyotp:false,
+        opt:'',
+        verified:false,
+      })
+
+      const auth = getAuth(app);
 
   const onCaptchaverify=()=>  {
  
@@ -78,7 +77,7 @@ export const Auth = () => {
       // ...
     });
   }
- 
+
        
  
   
@@ -104,9 +103,8 @@ export const Auth = () => {
     }
   },[inputs.phone])
 
-  const sendRequest=async(type="login")=>{
-    const res=await axios.post(`https://blogspot-pf51.onrender.com/user/${type}`,{
-      name:inputs.name,
+  const sendRequest=async()=>{
+    const res=await axios.post(`https://blogspot-pf51.onrender.com/user/forgetpassword`,{
       phone:inputs.phone,
       password:inputs.password
     }).catch(err=>console.log(err))
@@ -120,13 +118,12 @@ export const Auth = () => {
 
   const handlesubmit=(e)=>{
     e.preventDefault();
-    if(inputs.email===""){
-      alert("email is required")
+    if(inputs.phone===""){
+      alert("phone is required")
     }else{
-    if(isSignup){
       if(inputs.password===inputs.confirm_password){
           if(inputs.verified)  {
-          sendRequest('signup').then((data)=>localStorage.setItem("userId",data.user._id))
+          sendRequest().then((data)=>localStorage.setItem("userId",data.user._id))
           .then(()=>dispatch(authActions.login())).then(()=>navigate('/blogs'))
           .then(data=>console.log(data));
         }else{
@@ -136,59 +133,46 @@ export const Auth = () => {
         alert("password doesn't match");
       }
     }
-    
-    else{
-      sendRequest().then((data)=>localStorage.setItem("userId",data.user._id))
-      .then(()=>dispatch(authActions.login())).then(()=>navigate('/blogs'))
-      .then(data=>console.log(data));
     }
-    }
-  }
+
+
   return (
     <div>
-      <form onSubmit={handlesubmit}>
+         <form onSubmit={handlesubmit}>
       <div id='recaptcha-container'></div>
         <Box maxWidth={400} display="flex" flexDirection={"column"}
           alignItems="center" justifyContent={"center"}
           boxShadow={"10px 10px 20px #ccc"} padding={3}
           margin={"auto"} marginTop={5} borderRadius={5}>
           <Typography padding={3} variant='h4' textAlign={'center'}>
-            {isSignup ? "Signup"  : "Login"}
+           Reset Password
             </Typography>
-         {isSignup && 
-        
-         <TextField  name='name' value={inputs.name} onChange={handlechange} 
-         placeholder='Name' margin='normal' />
-         }{" "}
     {inputs.verified ? <p>verfied</p> :
         <TextField type='units * 600 + 2500 | number' name='phone' value={inputs.phone} onChange={handlechange} 
            placeholder='Phone' margin='normal' />}
-          {isSignup && inputs.verifybutton    ? 
+          {inputs.verifybutton    ? 
            <Button  variant='contained' sx={{borderRadius:'5', marginTop:'3'}} 
             onClick={onSignupSubmit} color='primary'>send otp</Button>: null}
-          {isSignup && inputs.verifyotp  ?
+          {inputs.verifyotp    ?
           <> <TextField type='number' name='otp' value={inputs.otp} onChange={handlechange} 
            placeholder='otp' margin='normal' />
            <Button  variant='contained' sx={{borderRadius:'5', marginTop:'3'}}
-            onClick={verifyCode} color='primary'>verify</Button></>:null} 
+            onClick={verifyCode} color='primary'>verify</Button> </>:null}
            
 
           
           <TextField type='password' name='password' value={inputs.password} onChange={handlechange} 
            placeholder='Password' margin='normal' />
 
-        {isSignup  ? <TextField type='password'  name='confirm_password' value={inputs.confirm_password} onChange={handlechange} 
+         <TextField type='password'  name='confirm_password' value={inputs.confirm_password} onChange={handlechange} 
          placeholder='Confirm Password' margin='normal' />
-         : null}
+      
 
           <Button type='submit' variant='contained' sx={{borderRadius:'5', marginTop:'3'}} color='primary'>
-            {isSignup ? "signup" : "login" }</Button>
-          <Button onClick={()=>{setSignup(!isSignup)}}>
-            {isSignup ?"Already have an account,login" :"create an account?signup" }
-            </Button>
-            <Button onClick={()=>{navigate('/forgetpassword')}}>forget password</Button>
+          reset</Button>
+         
         </Box>
       </form>
-      </div>
+    </div>
   )
-}
+          }
